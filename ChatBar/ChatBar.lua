@@ -131,16 +131,20 @@ end)
 --------------------------------------------------
 
 function ChatBar_UseChatType(chatType, target)
-	local chatFrame = SELECTED_DOCK_FRAME or DEFAULT_CHAT_FRAME;
-	local editBox = chatFrame.editBox;
+	local editBox = ChatEdit_ChooseBoxForSend();
+	local chatFrame = editBox.chatFrame;
 	
 	local chatType, channelIndex = string.gmatch(chatType, "([^%d]*)([%d]*)$")();
 	
 	ChatFrame_OpenChat("",chatFrame);
 	if chatType == "WHISPER" then
-		ChatFrame_ReplyTell(chatFrame);
-		if not editBox:IsVisible() or editBox:GetAttribute("chatType") ~= "WHISPER" then
-			ChatFrame_OpenChat(target and "/w "..target or "/w ", chatFrame);
+		target = ChatEdit_GetLastTellTarget();
+		if not target or target == "" then
+			ChatFrame_OpenChat("/w ", chatFrame);
+		else
+			ChatEdit_ActivateChat(editBox);
+			editBox:SetAttribute("chatType", chatType);
+			editBox:SetAttribute("tellTarget", target);
 		end
 		ChatEdit_UpdateHeader(editBox);
 		
@@ -154,13 +158,13 @@ function ChatBar_UseChatType(chatType, target)
 		else
 			return
 		end
-		editBox:Show();
+		ChatEdit_ActivateChat(editBox);
+		editBox:SetAttribute("channelTarget", target);
 		editBox:SetAttribute("chatType", "CHANNEL");
-		editBox:SetAttribute("channelTarget", target)
 		ChatEdit_UpdateHeader(editBox);
 		
 	elseif chatType then
-		editBox:Show();
+		ChatEdit_ActivateChat(editBox);
 		editBox:SetAttribute("chatType", chatType);
 		ChatEdit_UpdateHeader(editBox);
 	end

@@ -1,10 +1,10 @@
 ## Interface: 30300
 ## Title: ChatBar
 ## Title-deDE: Chat-Leiste
-## Notes: |@Version: 1@|Button Bar for openning chat messages of each type.
-## Notes-deDE: |@Version: 1@|Button-Leiste zum Senden von Chatnachrichten jedes Typs.
-## Notes-frFR: |@Version: 1@|Barre de boutons pour ouvrir les message de discussions de chaque type.
-## Notes-esES: |@Version: 1@|Barra de botones para abrir los mensajes de chat de cada tipo.
+## Notes: |@Version: 2@|Button Bar for openning chat messages of each type.
+## Notes-deDE: |@Version: 2@|Button-Leiste zum Senden von Chatnachrichten jedes Typs.
+## Notes-frFR: |@Version: 2@|Barre de boutons pour ouvrir les message de discussions de chaque type.
+## Notes-esES: |@Version: 2@|Barra de botones para abrir los mensajes de chat de cada tipo.
 ## OptionalDeps: Chronos
 ## RequiredDeps:
 ## SavedVariablesPerCharacter: ChatBar_VerticalDisplay, ChatBar_AlternateOrientation, ChatBar_HideSpecialChannels, ChatBar_TextOnButtonDisplay, ChatBar_ButtonFlashing, ChatBar_BarBorder, ChatBar_ButtonText, ChatBar_StoredStickies, ChatBar_HiddenButtons, ChatBar_TextChannelNumbers, ChatBar_HideAllButtons, ChatBar_AltArt, ChatBar_ChannelBindings, ChatBar_ButtonScale
