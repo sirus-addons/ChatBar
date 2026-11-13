@@ -21,7 +21,7 @@ CHATBAR_OFFICER_ABRV		= "О";
 CHATBAR_WHISPER_ABRV		= "Ш";
 CHATBAR_EMOTE_ABRV			= "Э";
 
-CHATBAR_MENU_MAIN_TITLE 		= "Настройки ChatBarа";
+CHATBAR_MENU_MAIN_TITLE 		= "Настройки ChatBar";
 CHATBAR_MENU_MAIN_LARGE 			= "Большие кнопки";
 CHATBAR_MENU_MAIN_VERTICAL 		= "Вертикальное расположение";
 CHATBAR_MENU_MAIN_REVERSE 		= "Обратное расположение кнопок";
@@ -44,16 +44,16 @@ CHATBAR_MENU_CHANNEL_LIST		= "Показать пользователей кан
 CHATBAR_MENU_HIDE_BUTTON		= "Скрыть кнопку \"%s\"";
 CHATBAR_MENU_WHISPER_REPLY		= "Ответить";
 CHATBAR_MENU_WHISPER_RETELL		= "Пересказать";
-CHATBAR_MENU_CHANNEL_STICKY		= "Sticky Channels";
-CHATBAR_MENU_STICKY				= "Sticky";
+CHATBAR_MENU_CHANNEL_STICKY		= "Клейкие каналы";
+CHATBAR_MENU_STICKY				= "Клейкий";
 
 CHATBAR_MENU_SHOW_BUTTON		= "Показать кнопку \"%s\"";
 
 CHATBAR_REORDER_START 		= "Переназначение каналов...";
 CHATBAR_REORDER_END 		= "Переназначение каналов завершено.";
 CHATBAR_REORDER_FLIGHT_FAIL = "Вы не можете переназначить каналы в полёте.";
-CHATBAR_BLOCKED					= "Кнал \"%s\" , заблокирован."
-CHATBAR_UNBLOCKED				= "Кнал \"%s\" , разблокирован."
+CHATBAR_BLOCKED					= "Канал \"%s\" заблокирован."
+CHATBAR_UNBLOCKED				= "Канал \"%s\" разблокирован."
 
 -- Capital Cities
 CHATBAR_SHATRATH		= "Шаттрат";
@@ -74,24 +74,24 @@ CHATBAR_LOCALDEFENSE		= "Оборона";
 CHATBAR_WORLDDEFENSE		= "WorldDefense";
 CHATBAR_GUILDRECRUITMENT	= "Набор в гильдии";
 
-CHATBAR_SKIN1	= "Solid";
-CHATBAR_SKIN2	= "Glass";
-CHATBAR_SKIN3	= "Squares";
+CHATBAR_SKIN1	= "Сплошной";
+CHATBAR_SKIN2	= "Стекло";
+CHATBAR_SKIN3	= "Квадраты";
 
 -- Bindings
-BINDING_HEADER_CHATBAR_HEADER	= "Chat Bar";
-BINDING_NAME_CHATBAR_SAY		= "Chat Say";
-BINDING_NAME_CHATBAR_YELL		= "Chat Yell";
-BINDING_NAME_CHATBAR_GUILD		= "Chat Guild";
-BINDING_NAME_CHATBAR_OFFICER	= "Chat Officer";
-BINDING_NAME_CHATBAR_PARTY		= "Chat Party";
-BINDING_NAME_CHATBAR_RAID		= "Chat Raid";
-BINDING_NAME_CHATBAR_EMOTE		= "Chat Emote";
+BINDING_HEADER_CHATBAR_HEADER	= "Панель чата";
+BINDING_NAME_CHATBAR_SAY		= "Чат: Сказать";
+BINDING_NAME_CHATBAR_YELL		= "Чат: Крик";
+BINDING_NAME_CHATBAR_GUILD		= "Чат: Гильдия";
+BINDING_NAME_CHATBAR_OFFICER	= "Чат: Офицеры";
+BINDING_NAME_CHATBAR_PARTY		= "Чат: Группа";
+BINDING_NAME_CHATBAR_RAID		= "Чат: Рейд";
+BINDING_NAME_CHATBAR_EMOTE		= "Чат: Эмоция";
 
-BINDING_NAME_CHATBAR_CHANNEL_FORMAT = "Chat Channel %s";
+BINDING_NAME_CHATBAR_CHANNEL_FORMAT = "Чат: Канал %s";
 
-CHATBAR_MENU_NONE = "Нету";
-CHATBAR_MENU_BINDING = "Set Binding By Name"
-CHATBAR_MENU_BINDING_TITLE = "Select Channel Binding To Replace"
+CHATBAR_MENU_NONE = "Нет";
+CHATBAR_MENU_BINDING = "Привязка по имени"
+CHATBAR_MENU_BINDING_TITLE = "Выберите заменяемую привязку"
 
 end 
