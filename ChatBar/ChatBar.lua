@@ -114,6 +114,7 @@ ChatBar_HiddenButtons = { };
 ChatBar_AltArtDirs = { "SkinSolid", "SkinGlass", "SkinSquares" };
 ChatBar_ChannelBindings = {};
 ChatBar_ButtonScale = 1;
+local BOGUS_CHANNELS;
 
 --------------------------------------------------
 -- Retell Hook
@@ -179,7 +180,7 @@ end
 
 function ChatBar_StandardButtonClick(self, button, target)
 	if button == "RightButton" then
-		ToggleDropDownMenu(1, self.ChatID, ChatBar_DropDown, self:GetName(), 10, 0, "TOPRIGHT");
+		ToggleDropDownMenu(1, self.ChatID, ChatBar_DropDown, self:GetName(), 10, 0);
 	else
 		local chatType = ChatBar_ChatTypes[self.ChatID].type;
 		ChatBar_UseChatType(chatType, target);
@@ -192,7 +193,12 @@ function ChatBar_ChannelShortText(index)
 		if ChatBar_TextChannelNumbers then
 			return channelNum;
 		else
-			return strsub(channelName,1,CHATBAR_CHAR_LENGTH);
+			local text = strsub(channelName,1,CHATBAR_CHAR_LENGTH);
+			local suffix = strmatch(channelName, "%((.-)%)");
+			if suffix then
+				text = text..strsub(suffix,1,CHATBAR_CHAR_LENGTH);
+			end
+			return text;
 		end
 	end
 end
@@ -323,7 +329,6 @@ ChatBar_ChatTypes = {
 		text = function() return CHAT_MSG_OFFICER; end,
 		click = ChatBar_StandardButtonClick,
 		blockable = true,
-		chatGroup = "GUILD_OFFICER",
 		show = function()
 			return CanEditOfficerNote() and (not ChatBar_HiddenButtons[CHAT_MSG_OFFICER]);
 		end
@@ -433,6 +438,7 @@ function ChatBar_OnLoad(self)
 	self:RegisterEvent("RAID_ROSTER_UPDATE");
 	self:RegisterEvent("PLAYER_GUILD_UPDATE");
 	self:RegisterEvent("VARIABLES_LOADED");
+	self:RegisterEvent("PLAYER_LOGIN");
 	self:RegisterForDrag("LeftButton");
 	self.velocity = 0;
 	if (Eclipse) then
@@ -474,13 +480,8 @@ function ChatBar_OnEvent(self, event, ...)
 		ChatBar_UpdateBarBorder();
 		ChatBar_UpdateButtonText();
 		ChatBar_UpdateChannelBindings();
-		
-		--Update live Stickies
-		for chatType, enabled in pairs(ChatBar_StoredStickies) do
-			if enabled then
-				ChatTypeInfo[chatType].sticky = enabled;
-			end
-		end
+	elseif event == "PLAYER_LOGIN" then
+		self.applyStickies = true;
 	else
 		if ChatBar_BarTypes[strsub(event,10)] then
 			UIFrameFlash(_G["ChatBarFrameButton"..ChatBar_BarTypes[strsub(event,10)].."Flash"], .5, .5, 1.1);
@@ -488,12 +489,25 @@ function ChatBar_OnEvent(self, event, ...)
 	end
 end
 
+function ChatBar_ApplyStickies()
+	for chatType, enabled in pairs(ChatBar_StoredStickies) do
+		if enabled then
+			ChatTypeInfo[chatType].sticky = enabled;
+		end
+	end
+end
+
 --ConstantInitialVelocity = 10;
-ConstantVelocityModifier = 1.25;
-ConstantJerk = 3*ConstantVelocityModifier;
-ConstantSnapLimit = 2;
+local ConstantVelocityModifier = 1.25;
+local ConstantJerk = 3*ConstantVelocityModifier;
+local ConstantSnapLimit = 2;
 
 function ChatBar_OnUpdate(self, elapsed)
+	
+	if (self.applyStickies) then
+		self.applyStickies = nil;
+		ChatBar_ApplyStickies();
+	end
 	
 	if (self.slidingEnabled) and (self.isSliding) and (self.velocity) and (self.endsize) then
 		local currSize = ChatBar_GetSize();
@@ -1015,6 +1029,12 @@ end
 -- Blocking Functions
 --------------------------------------------------
 
+local function print(text)
+	local color = ChatTypeInfo["SYSTEM"]
+	local frame = SELECTED_CHAT_FRAME or DEFAULT_CHAT_FRAME
+	frame:AddMessage(text, color.r, color.g, color.b)
+end
+
 function ChatBar_IsListeningForChatType(chatType)
 	local frame = SELECTED_CHAT_FRAME or DEFAULT_CHAT_FRAME
 	local messageTypeList = frame.messageTypeList;
@@ -1256,7 +1276,7 @@ end
 
 function ChatBar_Reset()
 	ChatBarFrame:ClearAllPoints();
-	ChatBarFrame:SetPoint("BOTTOMLEFT", "ChatFrame1", "TOPLEFT", 0, 30);
+	ChatBarFrame:SetPoint("BOTTOMLEFT", "ChatFrame1", "TOPLEFT", 0, 34);
 	ChatBarFrame:SetUserPlaced(0);
 end
 
@@ -1355,13 +1375,8 @@ function ChatBar_UpdateOrientationPoint(expanded)
 			end
 		end
 	else
-		if ChatBar_AlternateOrientation then
-			ChatBarFrame:ClearAllPoints();
-			ChatBarFrame:SetPoint("TOPRIGHT", "ChatFrame1", "TOPLEFT", 16, 46);
-		else
-			ChatBarFrame:ClearAllPoints();
-			ChatBarFrame:SetPoint("BOTTOMLEFT", "ChatFrame1", "TOPLEFT", 0, 30);
-		end
+		ChatBarFrame:ClearAllPoints();
+		ChatBarFrame:SetPoint("BOTTOMLEFT", "ChatFrame1", "TOPLEFT", 0, 34);
 	end
 end
 
@@ -1436,14 +1451,8 @@ end
 --------------------------------------------------
 
 function ChatBar_GetFirstWord(s)
-	local firstWord, count = gsub(s, "%s.*", "")
+	local firstWord, count = gsub(s, ":?%s.*", "")
 	return firstWord;
-end
-
-local function print(text)
-	local color = ChatTypeInfo["SYSTEM"]
-	local frame = SELECTED_CHAT_FRAME or DEFAULT_CHAT_FRAME
-	frame:AddMessage(text, color.r, color.g, color.b)
 end
 
 --------------------------------------------------
@@ -1451,7 +1460,7 @@ end
 --------------------------------------------------
 
 -- Standard Channel Order
-STANDARD_CHANNEL_ORDER = {
+local STANDARD_CHANNEL_ORDER = {
 	[CHATBAR_GENERAL] = 1,
 	[CHATBAR_TRADE] = 2,
 	[CHATBAR_LFG] = 3,
@@ -1473,7 +1482,7 @@ BOGUS_CHANNELS = {
 	"yuiwbefmopou"
 };
 
-CHATBAR_CAPITAL_CITIES = {
+local CHATBAR_CAPITAL_CITIES = {
 	[CHATBAR_ORGRIMMAR] = 1,
 	[CHATBAR_STORMWIND] = 1,
 	[CHATBAR_IRONFORGE] = 1,

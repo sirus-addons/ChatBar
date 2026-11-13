@@ -65,7 +65,7 @@
 		<Anchors>
 			<Anchor point="BOTTOMLEFT" relativeTo="ChatFrame1" relativePoint="TOPLEFT">
 				<Offset>
-					<AbsDimension x="0" y="30"/>
+					<AbsDimension x="0" y="34"/>
 				</Offset>
 			</Anchor>
 		</Anchors>
